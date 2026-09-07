@@ -5,14 +5,24 @@ import { useLanguage } from '../../context/LanguageContext';
 import api from '../../services/api';
 
 // Declare Web Speech API types
+// Declare Web Speech API types
 interface SpeechRecognitionEvent extends Event {
   results: any[];
 }
+
 interface SpeechRecognitionErrorEvent extends Event {
   error: string;
 }
 
-const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
 
 interface Message {
   role: 'user' | 'assistant';

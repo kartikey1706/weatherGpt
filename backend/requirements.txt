@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+sqlalchemy
+alembic
+psycopg2-binary
+httpx
+redis
+apscheduler
+python-multipart
+openai
+google-generativeai
+groq

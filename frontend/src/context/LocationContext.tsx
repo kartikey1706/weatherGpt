@@ -10,9 +10,20 @@ interface LocationContextType {
 const LocationContext = createContext<LocationContextType | undefined>(undefined);
 
 export const LocationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [location, setLocation] = useState<Location | null>(null);
+  const [location, setLocationState] = useState<Location | null>(() => {
+    const savedLocation = localStorage.getItem('weathergpt_location');
+    return savedLocation ? JSON.parse(savedLocation) : null;
+  });
 
-  const clearLocation = () => setLocation(null);
+  const setLocation = (newLocation: Location) => {
+    localStorage.setItem('weathergpt_location', JSON.stringify(newLocation));
+    setLocationState(newLocation);
+  };
+
+  const clearLocation = () => {
+    localStorage.removeItem('weathergpt_location');
+    setLocationState(null);
+  };
 
   return (
     <LocationContext.Provider value={{ location, setLocation, clearLocation }}>

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 
 class LocationSchema(BaseModel):
@@ -49,6 +49,7 @@ class WeatherDataSchema(BaseModel):
     forecast: List[ForecastDaySchema]
     hourly: Optional[List[HourlyForecastSchema]] = None
     metadata: WeatherMetadataSchema
+    insight: Optional[Dict[str, Any]] = None # NEW: AI-generated actionable insight
 
 class WeatherProvider(ABC):
     @abstractmethod

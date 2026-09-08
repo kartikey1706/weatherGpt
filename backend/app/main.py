@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api import weather, location, chat, climate
+from .api.endpoints import ai, advisory
 
 app = FastAPI(
     title="WeatherGPT API",
@@ -20,6 +21,8 @@ app.include_router(weather.router, prefix="/api/weather", tags=["Weather"])
 app.include_router(location.router, prefix="/api/location", tags=["Location"])
 app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
 app.include_router(climate.router, prefix="/api/climate", tags=["Climate"])
+app.include_router(ai.router, prefix="/api/ai", tags=["AI Intelligence"])
+app.include_router(advisory.router, prefix="/api/advisory", tags=["Advisory"])
 
 @app.get("/api/health")
 async def health_check():

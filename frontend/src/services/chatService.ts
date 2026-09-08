@@ -12,11 +12,17 @@ export interface ChatResponse {
   intent: string;
   location: any;
   language: string;
+  session_id: number;
+  trace: string[];
 }
 
 export const chatService = {
-  async sendMessage(message: string): Promise<ChatResponse> {
-    const response = await api.post('/chat', { message });
+  async sendMessage(message: string, sessionId?: number, location?: any): Promise<ChatResponse> {
+    const response = await api.post('/chat', {
+      message,
+      session_id: sessionId,
+      location: location
+    });
     return response.data;
   },
 };

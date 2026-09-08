@@ -2,6 +2,7 @@ import os
 from typing import List
 from ..integrations.weather.base import WeatherProvider, WeatherDataSchema, LocationSchema
 from ..integrations.weather.secondary_adapter import SecondaryWeatherProvider
+from ..intelligence.insight_engine import insight_engine
 from .cache_service import cache_service
 
 class WeatherService:
@@ -17,6 +18,15 @@ class WeatherService:
             return WeatherDataSchema(**cached_data)
 
         weather_data = await self.provider.get_weather(lat, lon)
+
+        # Integrate AI Insight Engine
+        insight = insight_engine.generate_insight(
+            weather_data.current,
+            weather_data.hourly or [],
+            weather_data.forecast
+        )
+        weather_data.insight = insight
+
         cache_service.set(cache_key, weather_data.dict(), ex=1800) # Cache for 30 mins
         return weather_data
 
